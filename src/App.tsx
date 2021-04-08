@@ -10,8 +10,16 @@ import { GraphQLResult } from "@aws-amplify/api-graphql";
 import awsconfig from "./aws-exports";
 
 import * as queries from "./graphql/queries";
+import * as mutations from "./graphql/mutations";
 import * as subscriptions from "./graphql/subscriptions";
-import { GetTodosQuery, Todo } from "./API";
+import {
+  CreateTodoMutation,
+  DeleteTodoMutation,
+  GetTodosQuery,
+  Todo,
+  UpdateTodoMutation,
+  UpdateTodoMutationVariables,
+} from "./API";
 
 Amplify.configure(awsconfig);
 
@@ -29,17 +37,58 @@ const App: FunctionComponent<{}> = () => {
       .catch((error) => console.error(error));
     return () => {
       // Anything in here is fired on component unmount.
-      console.log("B");
+      // console.log("B");
     };
   }, []);
 
+  const addTodo = async (title: string) => {
+    const response = await (API.graphql(
+      graphqlOperation(mutations.createTodo, {
+        title,
+      })
+    ) as GraphQLResult<CreateTodoMutation>);
+
+    setTodos([...todos, response.data?.createTodo as Todo]);
+  };
+
+  const deleteTodo = async (id: string) => {
+    const response = await (API.graphql(
+      graphqlOperation(mutations.deleteTodo, {
+        id,
+      })
+    ) as GraphQLResult<DeleteTodoMutation>);
+    setTodos(todos.filter((todo) => todo.id !== response.data?.deleteTodo?.id));
+  };
+
+  const updateTodo = async (id: string) => {
+    const todo = todos.find((item) => item.id === id);
+    const response = await (API.graphql(
+      graphqlOperation(mutations.updateTodo, {
+        id,
+        todo: {
+          completed: !todo?.completed,
+          title: todo?.title,
+        },
+      } as UpdateTodoMutationVariables)
+    ) as GraphQLResult<UpdateTodoMutation>);
+    setTodos(
+      todos.map((item) => {
+        if (item.id === id) {
+          return response.data?.updateTodo as Todo;
+        } else {
+          return item;
+        }
+      })
+    );
+  };
+
   return (
     <Layout>
-      <AddTodo onAdd={(title) => console.log("onAdd", title)}></AddTodo>
+      <AddTodo onAdd={addTodo}></AddTodo>
       <TodoList
-        onComplete={(id) => console.log("onComplete ", id)}
-        onUncomplete={(id) => console.log("onUncomplete ", id)}
-        onDelete={(id) => console.log("onDelete ", id)}
+        onComplete={updateTodo}
+        onUncomplete={updateTodo}
+        onDelete={deleteTodo}
         items={todos}
       ></TodoList>
     </Layout>
