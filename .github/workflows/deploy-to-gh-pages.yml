@@ -17,6 +17,8 @@ jobs:
         run: yarn test:ci
       - name: 🔧 Build
         run: yarn build
+        env:
+          REACT_APP_AWS_EXPORTS: ${{secrets.REACT_APP_AWS_EXPORTS_PROD}}
       - name: 🚀 Deploy
         uses: JamesIves/github-pages-deploy-action@3.7.1
         with:

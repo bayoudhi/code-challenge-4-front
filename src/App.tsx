@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useRef, useState } from "react";
+import React, { FunctionComponent, useEffect, useState } from "react";
 
 import "./App.css";
 import { AddTodo } from "./components/AddTodo";
@@ -7,11 +7,10 @@ import { TodoList } from "./components/TodoList";
 
 import Amplify, { API, graphqlOperation } from "aws-amplify";
 import { GraphQLResult } from "@aws-amplify/api-graphql";
-import awsconfig from "./aws-exports";
 
 import * as queries from "./graphql/queries";
 import * as mutations from "./graphql/mutations";
-import * as subscriptions from "./graphql/subscriptions";
+// import * as subscriptions from "./graphql/subscriptions";
 import {
   CreateTodoMutation,
   DeleteTodoMutation,
@@ -21,7 +20,7 @@ import {
   UpdateTodoMutationVariables,
 } from "./API";
 
-Amplify.configure(awsconfig);
+Amplify.configure(JSON.parse(process.env.REACT_APP_AWS_EXPORTS || ""));
 
 const App: FunctionComponent<{}> = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
