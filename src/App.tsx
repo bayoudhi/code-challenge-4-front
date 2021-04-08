@@ -2,9 +2,13 @@ import React from "react";
 
 import "./App.css";
 import { AddTodo } from "./components/AddTodo";
-
 import { Layout } from "./components/Layout";
 import { TodoList } from "./components/TodoList";
+
+import Amplify from "aws-amplify";
+import awsconfig from "./aws-exports";
+
+Amplify.configure(awsconfig);
 
 function App() {
   return (
