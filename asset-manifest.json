@@ -1,23 +1,23 @@
 {
   "files": {
     "main.css": "/code-challenge-4-front/static/css/main.8c8b27cf.chunk.css",
-    "main.js": "/code-challenge-4-front/static/js/main.88f28d6e.chunk.js",
-    "main.js.map": "/code-challenge-4-front/static/js/main.88f28d6e.chunk.js.map",
-    "runtime-main.js": "/code-challenge-4-front/static/js/runtime-main.9071bced.js",
-    "runtime-main.js.map": "/code-challenge-4-front/static/js/runtime-main.9071bced.js.map",
-    "static/js/2.cc551205.chunk.js": "/code-challenge-4-front/static/js/2.cc551205.chunk.js",
-    "static/js/2.cc551205.chunk.js.map": "/code-challenge-4-front/static/js/2.cc551205.chunk.js.map",
-    "static/js/3.3f66cb18.chunk.js": "/code-challenge-4-front/static/js/3.3f66cb18.chunk.js",
-    "static/js/3.3f66cb18.chunk.js.map": "/code-challenge-4-front/static/js/3.3f66cb18.chunk.js.map",
+    "main.js": "/code-challenge-4-front/static/js/main.abcb542c.chunk.js",
+    "main.js.map": "/code-challenge-4-front/static/js/main.abcb542c.chunk.js.map",
+    "runtime-main.js": "/code-challenge-4-front/static/js/runtime-main.11cabad2.js",
+    "runtime-main.js.map": "/code-challenge-4-front/static/js/runtime-main.11cabad2.js.map",
+    "static/js/2.7da491d7.chunk.js": "/code-challenge-4-front/static/js/2.7da491d7.chunk.js",
+    "static/js/2.7da491d7.chunk.js.map": "/code-challenge-4-front/static/js/2.7da491d7.chunk.js.map",
+    "static/js/3.79b7dabf.chunk.js": "/code-challenge-4-front/static/js/3.79b7dabf.chunk.js",
+    "static/js/3.79b7dabf.chunk.js.map": "/code-challenge-4-front/static/js/3.79b7dabf.chunk.js.map",
     "index.html": "/code-challenge-4-front/index.html",
     "static/css/main.8c8b27cf.chunk.css.map": "/code-challenge-4-front/static/css/main.8c8b27cf.chunk.css.map",
-    "static/js/2.cc551205.chunk.js.LICENSE.txt": "/code-challenge-4-front/static/js/2.cc551205.chunk.js.LICENSE.txt",
+    "static/js/2.7da491d7.chunk.js.LICENSE.txt": "/code-challenge-4-front/static/js/2.7da491d7.chunk.js.LICENSE.txt",
     "static/media/logo.6ce24c58.svg": "/code-challenge-4-front/static/media/logo.6ce24c58.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.9071bced.js",
-    "static/js/2.cc551205.chunk.js",
+    "static/js/runtime-main.11cabad2.js",
+    "static/js/2.7da491d7.chunk.js",
     "static/css/main.8c8b27cf.chunk.css",
-    "static/js/main.88f28d6e.chunk.js"
+    "static/js/main.abcb542c.chunk.js"
   ]
 }
