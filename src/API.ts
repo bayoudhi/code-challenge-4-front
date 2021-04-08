@@ -1,137 +1,52 @@
-/* tslint:disable */
-/* eslint-disable */
-//  This file was automatically generated and should not be edited.
+import API, { graphqlOperation, GraphQLResult } from "@aws-amplify/api";
+import {
+  CreateTodoMutation,
+  CreateTodoMutationVariables,
+  DeleteTodoMutation,
+  DeleteTodoMutationVariables,
+  GetTodosQuery,
+  GetTodosQueryVariables,
+  Todo,
+  Todos,
+  UpdateTodoMutation,
+  UpdateTodoMutationVariables,
+} from "./APITypes";
 
-export type Todo = {
-  __typename: "Todo",
-  id?: string,
-  title?: string,
-  completed?: boolean,
-  createdAt?: string,
-  updatedAt?: string,
+import * as queries from "./graphql/queries";
+import * as mutations from "./graphql/mutations";
+
+export const getTodos = async (
+  variables: GetTodosQueryVariables
+): Promise<Todos | null | undefined> => {
+  const result = await (API.graphql(
+    graphqlOperation(queries.getTodos, variables)
+  ) as Promise<GraphQLResult<GetTodosQuery>>);
+  return result.data?.getTodos;
 };
 
-export type UpdateTodoInput = {
-  title: string,
-  completed: boolean,
+export const createTodo = async (
+  variables: CreateTodoMutationVariables
+): Promise<Todo | null | undefined> => {
+  const result = await (API.graphql(
+    graphqlOperation(mutations.createTodo, variables)
+  ) as Promise<GraphQLResult<CreateTodoMutation>>);
+  return result.data?.createTodo;
 };
 
-export type Todos = {
-  __typename: "Todos",
-  Items?:  Array<Todo >,
-  nextToken?: string | null,
+export const deleteTodo = async (
+  variables: DeleteTodoMutationVariables
+): Promise<Todo | null | undefined> => {
+  const result = await (API.graphql(
+    graphqlOperation(mutations.deleteTodo, variables)
+  ) as Promise<GraphQLResult<DeleteTodoMutation>>);
+  return result.data?.deleteTodo;
 };
 
-export type CreateTodoMutationVariables = {
-  title?: string,
-};
-
-export type CreateTodoMutation = {
-  createTodo?:  {
-    __typename: "Todo",
-    id: string,
-    title: string,
-    completed: boolean,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type UpdateTodoMutationVariables = {
-  id?: string,
-  todo?: UpdateTodoInput,
-};
-
-export type UpdateTodoMutation = {
-  updateTodo?:  {
-    __typename: "Todo",
-    id: string,
-    title: string,
-    completed: boolean,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type DeleteTodoMutationVariables = {
-  id?: string,
-};
-
-export type DeleteTodoMutation = {
-  deleteTodo?:  {
-    __typename: "Todo",
-    id: string,
-    title: string,
-    completed: boolean,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type GetTodoQueryVariables = {
-  id?: string,
-};
-
-export type GetTodoQuery = {
-  getTodo?:  {
-    __typename: "Todo",
-    id: string,
-    title: string,
-    completed: boolean,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type GetTodosQueryVariables = {
-  limit?: number | null,
-  token?: string | null,
-};
-
-export type GetTodosQuery = {
-  getTodos?:  {
-    __typename: "Todos",
-    Items:  Array< {
-      __typename: "Todo",
-      id: string,
-      title: string,
-      completed: boolean,
-      createdAt: string,
-      updatedAt: string,
-    } >,
-    nextToken?: string | null,
-  } | null,
-};
-
-export type OnCreateTodoSubscription = {
-  onCreateTodo?:  {
-    __typename: "Todo",
-    id: string,
-    title: string,
-    completed: boolean,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type OnUpdateTodoSubscription = {
-  onUpdateTodo?:  {
-    __typename: "Todo",
-    id: string,
-    title: string,
-    completed: boolean,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type OnDeleteTodoSubscription = {
-  onDeleteTodo?:  {
-    __typename: "Todo",
-    id: string,
-    title: string,
-    completed: boolean,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
+export const updateTodo = async (
+  variables: UpdateTodoMutationVariables
+): Promise<Todo | null | undefined> => {
+  const result = await (API.graphql(
+    graphqlOperation(mutations.updateTodo, variables)
+  ) as Promise<GraphQLResult<UpdateTodoMutation>>);
+  return result.data?.updateTodo;
 };

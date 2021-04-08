@@ -7,7 +7,7 @@ import {
   ListItemSecondaryAction,
 } from "@material-ui/core";
 import DeleteOutlined from "@material-ui/icons/DeleteOutlined";
-import { Todo } from "../API";
+import { Todo } from "../APITypes";
 
 export interface TodoListItemProps {
   todo: Todo;
