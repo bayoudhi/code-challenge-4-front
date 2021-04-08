@@ -1,13 +1,10 @@
 import React, { FunctionComponent } from "react";
 import { List, Paper } from "@material-ui/core";
 import { TodoListItem } from "./TodoListItem";
+import { Todo } from "../API";
 
 export interface TodoListProps {
-  items: {
-    id: string;
-    title: string;
-    completed: boolean;
-  }[];
+  items: Todo[];
   onComplete?: (id: string) => void;
   onUncomplete?: (id: string) => void;
   onDelete?: (title: string) => void;
@@ -26,7 +23,7 @@ export const TodoList: FunctionComponent<TodoListProps> = ({
           <List style={{ overflow: "scroll" }}>
             {items.map((todo, index) => (
               <TodoListItem
-                {...todo}
+                todo={todo}
                 onComplete={onComplete}
                 onUncomplete={onUncomplete}
                 onDelete={onDelete}

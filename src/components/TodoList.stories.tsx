@@ -16,16 +16,19 @@ export const Default = Template.bind({});
 Default.args = {
   items: [
     {
+      __typename: "Todo",
       id: "id1",
       title: "Go to school",
       completed: false,
     },
     {
+      __typename: "Todo",
       id: "id3",
       title: "Buy milk",
       completed: true,
     },
     {
+      __typename: "Todo",
       id: "id2",
       title: "Buy PS5",
       completed: false,

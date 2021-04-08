@@ -14,9 +14,12 @@ const Template: Story<TodoListItemProps> = (args) => <TodoListItem {...args} />;
 
 export const Uncompleted = Template.bind({});
 Uncompleted.args = {
-  id: "id1",
-  title: "Go to cinema",
-  completed: false,
+  todo: {
+    __typename: "Todo",
+    id: "id1",
+    title: "Go to cinema",
+    completed: false,
+  },
   divider: false,
   onComplete: () => console.log("onComplete"),
   onUncomplete: () => console.log("onUncomplete"),
@@ -25,9 +28,12 @@ Uncompleted.args = {
 
 export const Completed = Template.bind({});
 Completed.args = {
-  id: "id1",
-  title: "Go to cinema",
-  completed: true,
+  todo: {
+    __typename: "Todo",
+    id: "id1",
+    title: "Go to cinema",
+    completed: true,
+  },
   divider: false,
   onComplete: () => console.log("onComplete"),
   onUncomplete: () => console.log("onUncomplete"),
@@ -36,9 +42,12 @@ Completed.args = {
 
 export const WithDivider = Template.bind({});
 WithDivider.args = {
-  id: "id1",
-  title: "Go to cinema",
-  completed: true,
+  todo: {
+    __typename: "Todo",
+    id: "id1",
+    title: "Go to cinema",
+    completed: true,
+  },
   divider: true,
   onComplete: () => console.log("onComplete"),
   onUncomplete: () => console.log("onUncomplete"),
@@ -47,9 +56,12 @@ WithDivider.args = {
 
 export const WithoutDivider = Template.bind({});
 WithoutDivider.args = {
-  id: "id1",
-  title: "Go to cinema",
-  completed: true,
+  todo: {
+    __typename: "Todo",
+    id: "id1",
+    title: "Go to cinema",
+    completed: true,
+  },
   divider: false,
   onComplete: () => console.log("onComplete"),
   onUncomplete: () => console.log("onUncomplete"),

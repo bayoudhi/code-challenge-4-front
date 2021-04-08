@@ -7,11 +7,10 @@ import {
   ListItemSecondaryAction,
 } from "@material-ui/core";
 import DeleteOutlined from "@material-ui/icons/DeleteOutlined";
+import { Todo } from "../API";
 
 export interface TodoListItemProps {
-  id: string;
-  title: string;
-  completed: boolean;
+  todo: Todo;
   divider: boolean;
   onComplete?: (id: string) => void;
   onUncomplete?: (id: string) => void;
@@ -19,10 +18,8 @@ export interface TodoListItemProps {
 }
 
 export const TodoListItem: FunctionComponent<TodoListItemProps> = ({
-  id,
+  todo,
   divider,
-  title,
-  completed,
   onComplete,
   onUncomplete,
   onDelete,
@@ -30,22 +27,24 @@ export const TodoListItem: FunctionComponent<TodoListItemProps> = ({
   return (
     <ListItem divider={divider}>
       <Checkbox
-        checked={completed}
+        checked={todo.completed}
         disableRipple
         onClick={() => {
-          if (completed) {
-            if (onUncomplete) onUncomplete(id);
-          } else {
-            if (onComplete) onComplete(id);
+          if (todo.id) {
+            if (todo.completed) {
+              if (onUncomplete) onUncomplete(todo.id);
+            } else {
+              if (onComplete) onComplete(todo.id);
+            }
           }
         }}
       />
-      <ListItemText primary={title} />
+      <ListItemText primary={todo.title} />
       <ListItemSecondaryAction>
         <IconButton
           aria-label="Delete Todo"
           onClick={() => {
-            if (onDelete) onDelete(id);
+            if (onDelete && todo.id) onDelete(todo.id);
           }}
         >
           <DeleteOutlined />
