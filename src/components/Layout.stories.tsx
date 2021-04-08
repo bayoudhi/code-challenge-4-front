@@ -27,19 +27,16 @@ Default.args = {
             id: "id1",
             title: "Go to school",
             completed: false,
-            divider: false,
           },
           {
             id: "id3",
             title: "Buy milk",
             completed: true,
-            divider: false,
           },
           {
             id: "id2",
             title: "Buy PS5",
             completed: false,
-            divider: false,
           },
         ]}
       ></TodoList>

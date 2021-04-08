@@ -1,30 +1,38 @@
 import React from "react";
-import logo from "./logo.svg";
-import "./App.css";
 
-import { Button } from "@material-ui/core";
+import "./App.css";
+import { AddTodo } from "./components/AddTodo";
+
+import { Layout } from "./components/Layout";
+import { TodoList } from "./components/TodoList";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <Button variant="contained" color="primary">
-          Hello World
-        </Button>
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Layout>
+      <AddTodo onAdd={(title) => console.log("onAdd", title)}></AddTodo>
+      <TodoList
+        onComplete={(id) => console.log("onComplete ", id)}
+        onUncomplete={(id) => console.log("onUncomplete ", id)}
+        onDelete={(id) => console.log("onDelete ", id)}
+        items={[
+          {
+            id: "id1",
+            title: "Go to school",
+            completed: false,
+          },
+          {
+            id: "id3",
+            title: "Buy milk",
+            completed: true,
+          },
+          {
+            id: "id2",
+            title: "Buy PS5",
+            completed: false,
+          },
+        ]}
+      ></TodoList>
+    </Layout>
   );
 }
 
