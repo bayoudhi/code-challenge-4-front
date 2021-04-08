@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState } from "react";
-import { Button, Grid, Input, Paper, TextField } from "@material-ui/core";
+import { Button, Grid, Paper, TextField } from "@material-ui/core";
 
 export interface AddTodoProps {
   onAdd: (title: string) => void;

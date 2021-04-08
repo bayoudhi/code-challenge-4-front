@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react";
 import { List, Paper } from "@material-ui/core";
-import { TodoListItem, TodoListItemProps } from "./TodoListItem";
+import { TodoListItem } from "./TodoListItem";
 
 export interface TodoListProps {
   items: {
