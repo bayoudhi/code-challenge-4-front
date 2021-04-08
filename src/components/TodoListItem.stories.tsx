@@ -18,6 +18,9 @@ Uncompleted.args = {
   title: "Go to cinema",
   completed: false,
   divider: false,
+  onComplete: () => console.log("onComplete"),
+  onUncomplete: () => console.log("onUncomplete"),
+  onDelete: (id) => console.log("onDelete ", id),
 };
 
 export const Completed = Template.bind({});
@@ -26,6 +29,9 @@ Completed.args = {
   title: "Go to cinema",
   completed: true,
   divider: false,
+  onComplete: () => console.log("onComplete"),
+  onUncomplete: () => console.log("onUncomplete"),
+  onDelete: (id) => console.log("onDelete ", id),
 };
 
 export const WithDivider = Template.bind({});
@@ -34,6 +40,9 @@ WithDivider.args = {
   title: "Go to cinema",
   completed: true,
   divider: true,
+  onComplete: () => console.log("onComplete"),
+  onUncomplete: () => console.log("onUncomplete"),
+  onDelete: (id) => console.log("onDelete ", id),
 };
 
 export const WithoutDivider = Template.bind({});
@@ -42,4 +51,7 @@ WithoutDivider.args = {
   title: "Go to cinema",
   completed: true,
   divider: false,
+  onComplete: () => console.log("onComplete"),
+  onUncomplete: () => console.log("onUncomplete"),
+  onDelete: (id) => console.log("onDelete ", id),
 };

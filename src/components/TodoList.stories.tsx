@@ -31,9 +31,15 @@ Default.args = {
       completed: false,
     },
   ],
+  onComplete: (id) => console.log("onComplete ", id),
+  onUncomplete: (id) => console.log("onUncomplete ", id),
+  onDelete: (id) => console.log("onDelete ", id),
 };
 
 export const EmptyList = Template.bind({});
 EmptyList.args = {
   items: [],
+  onComplete: (id) => console.log("onComplete ", id),
+  onUncomplete: (id) => console.log("onUncomplete ", id),
+  onDelete: (id) => console.log("onDelete ", id),
 };
