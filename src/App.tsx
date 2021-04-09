@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from "react";
+import React, { FunctionComponent, useEffect, useReducer } from "react";
 
 import "./App.css";
 import { AddTodo } from "./components/AddTodo";
@@ -6,22 +6,22 @@ import { Layout } from "./components/Layout";
 import { TodoList } from "./components/TodoList";
 
 import Amplify from "aws-amplify";
-import { Todo } from "./APITypes";
 import * as API from "./API";
+import { reducer } from "./reducer";
 
 Amplify.configure(JSON.parse(process.env.REACT_APP_AWS_EXPORTS || ""));
 
 const App: FunctionComponent<{}> = () => {
-  const [todos, setTodos] = useState<{ [key: string]: Todo }>({});
-
+  const [state, dispatch] = useReducer(reducer, {
+    todos: {},
+  });
   useEffect(() => {
     // Anything in here is fired on component mount.
     API.getTodos({}).then((result) => {
-      const newTodos: { [key: string]: Todo } = {};
-      result?.Items?.forEach((item) => {
-        if (item.id) newTodos[item.id] = item;
+      dispatch({
+        type: "SET",
+        payload: result?.Items || [],
       });
-      setTodos(newTodos);
     });
 
     return () => {
@@ -34,21 +34,27 @@ const App: FunctionComponent<{}> = () => {
     const response = await API.createTodo({
       title,
     });
-    if (response && response.id)
-      setTodos({ ...todos, [response.id]: response });
+    if (response)
+      dispatch({
+        type: "ADD",
+        payload: response,
+      });
   };
 
   const deleteTodo = async (id: string) => {
     await API.deleteTodo({
       id,
     });
-    const newTodos = { ...todos };
-    delete newTodos[id];
-    setTodos(newTodos);
+    dispatch({
+      type: "DELETE",
+      payload: {
+        id,
+      },
+    });
   };
 
   const updateTodo = async (id: string) => {
-    const todo = todos[id];
+    const todo = state.todos[id];
     const response = await API.updateTodo({
       id,
       todo: {
@@ -56,10 +62,10 @@ const App: FunctionComponent<{}> = () => {
         title: todo?.title || "",
       },
     });
-    if (response && response.id)
-      setTodos({
-        ...todos,
-        [response.id]: response,
+    if (response)
+      dispatch({
+        type: "UPDATE",
+        payload: response,
       });
   };
 
@@ -70,8 +76,8 @@ const App: FunctionComponent<{}> = () => {
         onComplete={updateTodo}
         onUncomplete={updateTodo}
         onDelete={deleteTodo}
-        items={Object.keys(todos)
-          .map((key) => todos[key])
+        items={Object.keys(state.todos)
+          .map((key) => state.todos[key])
           .sort((a, b) => {
             if (a.createdAt && b.createdAt) {
               if (a.createdAt < b.createdAt) {
