@@ -12,12 +12,16 @@ import * as API from "./API";
 Amplify.configure(JSON.parse(process.env.REACT_APP_AWS_EXPORTS || ""));
 
 const App: FunctionComponent<{}> = () => {
-  const [todos, setTodos] = useState<Todo[]>([]);
+  const [todos, setTodos] = useState<{ [key: string]: Todo }>({});
 
   useEffect(() => {
     // Anything in here is fired on component mount.
     API.getTodos({}).then((result) => {
-      setTodos(result?.Items || []);
+      const newTodos: { [key: string]: Todo } = {};
+      result?.Items?.forEach((item) => {
+        if (item.id) newTodos[item.id] = item;
+      });
+      setTodos(newTodos);
     });
 
     return () => {
@@ -30,18 +34,21 @@ const App: FunctionComponent<{}> = () => {
     const response = await API.createTodo({
       title,
     });
-    if (response) setTodos([...todos, response]);
+    if (response && response.id)
+      setTodos({ ...todos, [response.id]: response });
   };
 
   const deleteTodo = async (id: string) => {
-    const response = await API.deleteTodo({
+    await API.deleteTodo({
       id,
     });
-    setTodos(todos.filter((todo) => todo.id !== response?.id));
+    const newTodos = { ...todos };
+    delete newTodos[id];
+    setTodos(newTodos);
   };
 
   const updateTodo = async (id: string) => {
-    const todo = todos.find((item) => item.id === id);
+    const todo = todos[id];
     const response = await API.updateTodo({
       id,
       todo: {
@@ -49,16 +56,11 @@ const App: FunctionComponent<{}> = () => {
         title: todo?.title || "",
       },
     });
-    if (response)
-      setTodos(
-        todos.map((item) => {
-          if (item.id === id) {
-            return response;
-          } else {
-            return item;
-          }
-        })
-      );
+    if (response && response.id)
+      setTodos({
+        ...todos,
+        [response.id]: response,
+      });
   };
 
   return (
@@ -68,7 +70,19 @@ const App: FunctionComponent<{}> = () => {
         onComplete={updateTodo}
         onUncomplete={updateTodo}
         onDelete={deleteTodo}
-        items={todos}
+        items={Object.keys(todos)
+          .map((key) => todos[key])
+          .sort((a, b) => {
+            if (a.createdAt && b.createdAt) {
+              if (a.createdAt < b.createdAt) {
+                return 1;
+              }
+              if (a.createdAt > b.createdAt) {
+                return -1;
+              }
+            }
+            return 0;
+          })}
       ></TodoList>
     </Layout>
   );
