@@ -25,6 +25,8 @@ const App: FunctionComponent<{}> = () => {
   const [error, setError] = useState("");
   useEffect(() => {
     // Anything in here is fired on component mount.
+
+    // Fetching Todos
     API.getTodos({})
       .then((result) => {
         setLoading(false);
@@ -43,9 +45,47 @@ const App: FunctionComponent<{}> = () => {
         console.error(error);
       });
 
+    // Subscribe to onCreateTodo GraphQL subscription
+    const onCreateSubscription = API.onCreateTodo().subscribe({
+      next: ({ value }) => {
+        if (value.data?.onCreateTodo) {
+          dispatch({
+            type: "ADD",
+            payload: value.data?.onCreateTodo,
+          });
+        }
+      },
+    });
+
+    // Subscribe to onUpdateTodo GraphQL subscription
+    const onUpdateSubscription = API.onUpdateTodo().subscribe({
+      next: ({ value }) => {
+        if (value.data?.onUpdateTodo) {
+          dispatch({
+            type: "UPDATE",
+            payload: value.data?.onUpdateTodo,
+          });
+        }
+      },
+    });
+
+    // Subscribe to onDeleteTodo GraphQL subscription
+    const onDeleteSubscription = API.onDeleteTodo().subscribe({
+      next: ({ value }) => {
+        if (value.data?.onDeleteTodo) {
+          dispatch({
+            type: "DELETE",
+            payload: value.data?.onDeleteTodo,
+          });
+        }
+      },
+    });
+
     return () => {
       // Anything in here is fired on component unmount.
-      // console.log("B");
+      onCreateSubscription.unsubscribe();
+      onUpdateSubscription.unsubscribe();
+      onDeleteSubscription.unsubscribe();
     };
   }, []);
 
