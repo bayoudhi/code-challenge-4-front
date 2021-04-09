@@ -115,7 +115,7 @@ const App: FunctionComponent<{}> = () => {
   const deleteTodo = async (id: string) => {
     const todo = { ...state.todos[id] };
     try {
-      setLoading(true);
+      // setLoading(true);
       dispatch({
         type: "DELETE",
         payload: {
@@ -137,14 +137,14 @@ const App: FunctionComponent<{}> = () => {
         payload: todo,
       });
     } finally {
-      setLoading(false);
+      // setLoading(false);
     }
   };
 
   const updateTodo = async (id: string) => {
     const todo = state.todos[id];
     try {
-      setLoading(true);
+      // setLoading(true);
       dispatch({
         type: "UPDATE",
         payload: {
@@ -176,7 +176,7 @@ const App: FunctionComponent<{}> = () => {
         payload: todo,
       });
     } finally {
-      setLoading(false);
+      // setLoading(false);
     }
   };
   return (

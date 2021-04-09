@@ -39,7 +39,12 @@ export const TodoListItem: FunctionComponent<TodoListItemProps> = ({
           }
         }}
       />
-      <ListItemText primary={todo.title} />
+      <ListItemText
+        style={{
+          textDecoration: todo.completed ? "line-through" : "",
+        }}
+        primary={todo.title}
+      />
       <ListItemSecondaryAction>
         <IconButton
           aria-label="Delete Todo"
