@@ -13,7 +13,7 @@ import { TodoList } from "./components/TodoList";
 import Amplify from "aws-amplify";
 import * as API from "./API";
 import { reducer } from "./reducer";
-import { LinearProgress } from "@material-ui/core";
+import { LinearProgress, Snackbar } from "@material-ui/core";
 
 Amplify.configure(JSON.parse(process.env.REACT_APP_AWS_EXPORTS || ""));
 
@@ -22,6 +22,7 @@ const App: FunctionComponent<{}> = () => {
     todos: {},
   });
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
   useEffect(() => {
     // Anything in here is fired on component mount.
     API.getTodos({})
@@ -34,6 +35,11 @@ const App: FunctionComponent<{}> = () => {
       })
       .catch((error) => {
         setLoading(false);
+        if (error && error.errors && error.errors[0]) {
+          setError(error.errors[0].message);
+        } else {
+          setError("Error happened");
+        }
         console.error(error);
       });
 
@@ -55,6 +61,11 @@ const App: FunctionComponent<{}> = () => {
           payload: response,
         });
     } catch (error) {
+      if (error && error.errors && error.errors[0]) {
+        setError(error.errors[0].message);
+      } else {
+        setError("Error happened");
+      }
       console.error(error);
     } finally {
       setLoading(false);
@@ -75,6 +86,11 @@ const App: FunctionComponent<{}> = () => {
         id,
       });
     } catch (error) {
+      if (error && error.errors && error.errors[0]) {
+        setError(error.errors[0].message);
+      } else {
+        setError("Error happened");
+      }
       console.error(error);
       dispatch({
         type: "ADD",
@@ -109,6 +125,11 @@ const App: FunctionComponent<{}> = () => {
           payload: response,
         });
     } catch (error) {
+      if (error && error.errors && error.errors[0]) {
+        setError(error.errors[0].message);
+      } else {
+        setError("Error happened");
+      }
       console.error(error);
       dispatch({
         type: "UPDATE",
@@ -118,7 +139,6 @@ const App: FunctionComponent<{}> = () => {
       setLoading(false);
     }
   };
-
   return (
     <Layout>
       {loading && <LinearProgress color="secondary" />}
@@ -141,6 +161,13 @@ const App: FunctionComponent<{}> = () => {
             return 0;
           })}
       ></TodoList>
+      <Snackbar
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        open={error !== ""}
+        message={error}
+        onClose={() => setError("")}
+        autoHideDuration={6000}
+      />
     </Layout>
   );
 };
