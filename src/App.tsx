@@ -5,7 +5,7 @@ import { AddTodo } from "./components/AddTodo";
 import { Layout } from "./components/Layout";
 import { TodoList } from "./components/TodoList";
 
-import Amplify, { API as AmplifyAPI } from "aws-amplify";
+import Amplify from "aws-amplify";
 import { Todo } from "./APITypes";
 import * as API from "./API";
 
