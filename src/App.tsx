@@ -1,4 +1,9 @@
-import React, { FunctionComponent, useEffect, useReducer } from "react";
+import React, {
+  FunctionComponent,
+  useEffect,
+  useReducer,
+  useState,
+} from "react";
 
 import "./App.css";
 import { AddTodo } from "./components/AddTodo";
@@ -8,6 +13,7 @@ import { TodoList } from "./components/TodoList";
 import Amplify from "aws-amplify";
 import * as API from "./API";
 import { reducer } from "./reducer";
+import { LinearProgress } from "@material-ui/core";
 
 Amplify.configure(JSON.parse(process.env.REACT_APP_AWS_EXPORTS || ""));
 
@@ -15,14 +21,21 @@ const App: FunctionComponent<{}> = () => {
   const [state, dispatch] = useReducer(reducer, {
     todos: {},
   });
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     // Anything in here is fired on component mount.
-    API.getTodos({}).then((result) => {
-      dispatch({
-        type: "SET",
-        payload: result?.Items || [],
+    API.getTodos({})
+      .then((result) => {
+        setLoading(false);
+        dispatch({
+          type: "SET",
+          payload: result?.Items || [],
+        });
+      })
+      .catch((error) => {
+        setLoading(false);
+        console.error(error);
       });
-    });
 
     return () => {
       // Anything in here is fired on component unmount.
@@ -31,46 +44,68 @@ const App: FunctionComponent<{}> = () => {
   }, []);
 
   const addTodo = async (title: string) => {
-    const response = await API.createTodo({
-      title,
-    });
-    if (response)
-      dispatch({
-        type: "ADD",
-        payload: response,
+    try {
+      setLoading(true);
+      const response = await API.createTodo({
+        title,
       });
+      if (response)
+        dispatch({
+          type: "ADD",
+          payload: response,
+        });
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const deleteTodo = async (id: string) => {
-    await API.deleteTodo({
-      id,
-    });
-    dispatch({
-      type: "DELETE",
-      payload: {
+    try {
+      setLoading(true);
+      await API.deleteTodo({
         id,
-      },
-    });
+      });
+      dispatch({
+        type: "DELETE",
+        payload: {
+          id,
+        },
+      });
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const updateTodo = async (id: string) => {
-    const todo = state.todos[id];
-    const response = await API.updateTodo({
-      id,
-      todo: {
-        completed: !todo?.completed,
-        title: todo?.title || "",
-      },
-    });
-    if (response)
-      dispatch({
-        type: "UPDATE",
-        payload: response,
+    try {
+      setLoading(true);
+      const todo = state.todos[id];
+      const response = await API.updateTodo({
+        id,
+        todo: {
+          completed: !todo?.completed,
+          title: todo?.title || "",
+        },
       });
+      if (response)
+        dispatch({
+          type: "UPDATE",
+          payload: response,
+        });
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <Layout>
+      {loading && <LinearProgress color="secondary" />}
       <AddTodo onAdd={addTodo}></AddTodo>
       <TodoList
         onComplete={updateTodo}
