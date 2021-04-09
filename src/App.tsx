@@ -62,28 +62,40 @@ const App: FunctionComponent<{}> = () => {
   };
 
   const deleteTodo = async (id: string) => {
+    const todo = { ...state.todos[id] };
     try {
       setLoading(true);
-      await API.deleteTodo({
-        id,
-      });
       dispatch({
         type: "DELETE",
         payload: {
           id,
         },
       });
+      await API.deleteTodo({
+        id,
+      });
     } catch (error) {
       console.error(error);
+      dispatch({
+        type: "ADD",
+        payload: todo,
+      });
     } finally {
       setLoading(false);
     }
   };
 
   const updateTodo = async (id: string) => {
+    const todo = state.todos[id];
     try {
       setLoading(true);
-      const todo = state.todos[id];
+      dispatch({
+        type: "UPDATE",
+        payload: {
+          ...todo,
+          completed: !todo?.completed,
+        },
+      });
       const response = await API.updateTodo({
         id,
         todo: {
@@ -98,6 +110,10 @@ const App: FunctionComponent<{}> = () => {
         });
     } catch (error) {
       console.error(error);
+      dispatch({
+        type: "UPDATE",
+        payload: todo,
+      });
     } finally {
       setLoading(false);
     }

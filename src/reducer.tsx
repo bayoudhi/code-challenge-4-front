@@ -31,7 +31,9 @@ export function reducer(state: State, action: Action): State {
     if (todo.id) {
       const existingTodo = state.todos[todo.id];
       if (
+        todo &&
         todo.updatedAt &&
+        existingTodo &&
         existingTodo.updatedAt &&
         todo.updatedAt >= existingTodo.updatedAt
       ) {
